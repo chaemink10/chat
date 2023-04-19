@@ -20,6 +20,7 @@ sendButton.addEventListener('click', (e) => {
 });
 
 socket.on('chatting', (data) => {
+  //create element variable
   const li = document.createElement('li');
   const profile = document.createElement('profile');
   const user = document.createElement('span');
@@ -31,7 +32,6 @@ socket.on('chatting', (data) => {
   const date = new Date();
   const hours = date.getHours();
   const minutes = date.getMinutes();
-
   const hoursText = hours > 12 ? `오후 ${hours - 12}` : `오전 ${hours}`;
   const minutesText = minutes < 10 ? `0${minutes}` : minutes;
   const dateText = `${hoursText}:${minutesText}`;
@@ -57,6 +57,7 @@ socket.on('chatting', (data) => {
   // message
   message.classList.add('message');
   message.innerText = data.msg;
+  li.appendChild(message);
 
   // messasge time
   time.classList.add('time');
