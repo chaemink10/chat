@@ -6,22 +6,36 @@ const sendButton = document.querySelector('.send-button');
 const nickName = document.querySelector('#nickname');
 const chatInput = document.querySelector('.chatting-input');
 const chatList = document.querySelector('.chatting-list');
+const displayContainer = document.querySelector('.display-container');
 
 let nick_name = '';
 
-//전송 버튼 이벤트
-sendButton.addEventListener('click', (e) => {
-  e.preventDefault();
+//서버에 전송
+const send = () => {
   const param = {
     name: nickName.value,
     msg: chatInput.value,
   };
   socket.emit('chatting', param);
+};
+
+//전송 버튼 이벤트
+sendButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  send();
+});
+
+//enter 키 입력 이벤트
+chatInput.addEventListener('keypress', (event) => {
+  if (event.keyCode === 13) {
+    send();
+  }
 });
 
 socket.on('chatting', (data) => {
   const list = new LiModel(data);
   list.makeLi();
+  displayContainer.scrollTo(0, displayContainer.scrollHeight);
 
   //대화창 초기화
   chatInput.value = '';

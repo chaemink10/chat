@@ -97,14 +97,14 @@ html, body{
   font-size:0.7rem;
   margin-left:10px;
 }
-.chatting-list li.received{
+.chatting-list li.sent{
   flex-direction: row-reverse;
   justify-content: flex-end;
   float: right;
 }
-.chatting-list li.received .profile{
+.chatting-list li.sent .profile{
   margin-left:5px;
 }
-.chatting-list li.received .message{
+.chatting-list li.sent .message{
   background-color: #ffeb33;
 }

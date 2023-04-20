@@ -7,7 +7,7 @@ const path = require('path');
 const socketIO = require('socket.io');
 const io = socketIO(server); //socket.io에 server를 담음
 
-const moment = require('moment');
+const moment = require('moment'); //시간
 
 app.use(express.static(path.join(__dirname, 'src'))); //__dirname : 프로젝트 디렉토리
 
