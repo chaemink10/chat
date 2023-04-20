@@ -7,13 +7,20 @@ const path = require('path');
 const socketIO = require('socket.io');
 const io = socketIO(server); //socket.io에 server를 담음
 
+const moment = require('moment');
+
 app.use(express.static(path.join(__dirname, 'src'))); //__dirname : 프로젝트 디렉토리
 
 const PORT = process.env.PORT || 3000;
 
 io.on('connection', (socket) => {
   socket.on('chatting', (data) => {
-    io.emit('chatting', data);
+    const { name, msg } = data;
+    io.emit('chatting', {
+      name: name,
+      msg: msg,
+      time: moment(new Date()).format('h:mm A'),
+    });
   });
 });
 
