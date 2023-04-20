@@ -20,50 +20,38 @@ sendButton.addEventListener('click', (e) => {
 });
 
 socket.on('chatting', (data) => {
-  //create element variable
-  const li = document.createElement('li');
-  const profile = document.createElement('profile');
-  const user = document.createElement('span');
-  const img = document.createElement('img');
-  const message = document.createElement('span');
-  const time = document.createElement('span');
+  const list = new LiModel(data, new Date());
+  list.makeLi();
 
-  //메세지 시간
-  const date = new Date();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
+  //대화창 초기화
+  chatInput.value = '';
+});
+
+function LiModel({ name, msg }, time) {
+  this.name = name;
+  this.msg = msg;
+  this.time = time;
+
+  const hours = this.time.getHours();
+  const minutes = this.time.getMinutes();
   const hoursText = hours > 12 ? `오후 ${hours - 12}` : `오전 ${hours}`;
   const minutesText = minutes < 10 ? `0${minutes}` : minutes;
   const dateText = `${hoursText}:${minutesText}`;
 
-  //list
-  li.classList.add('send');
-  chatList.appendChild(li);
+  this.makeLi = () => {
+    const li = document.createElement('li');
 
-  //profile
-  profile.classList.add('profile');
-  li.appendChild(profile);
+    console.log(this.name, nickName.value);
 
-  // user Name
-  user.innerText = data.name;
-  user.classList.add('user');
-  profile.appendChild(user);
+    li.classList.add(this.name == nickName.value ? 'sent' : 'received');
 
-  // profile image
-  img.setAttribute('src', 'http://placeimg.com/50/50/any');
-  img.setAttribute('alt', 'any');
-  profile.appendChild(img);
-
-  // message
-  message.classList.add('message');
-  message.innerText = data.msg;
-  li.appendChild(message);
-
-  // messasge time
-  time.classList.add('time');
-  time.innerText = dateText;
-  li.appendChild(time);
-
-  // 대화창 초기화
-  chatInput.value = '';
-});
+    const dom = `<span class="profile">
+    <span class="user">${this.name}</span>
+    <img src="http://placeimg.com/50/50/any" alt="any">
+    </span>
+    <span class="message">${this.msg}</span>
+    <span class="time">${dateText}</span>`;
+    li.innerHTML = dom;
+    chatList.appendChild(li);
+  };
+}
